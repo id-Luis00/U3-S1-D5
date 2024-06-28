@@ -3,6 +3,7 @@ import './App.css';
 import NavBar from "./component/NavBar";
 import { Container } from "react-bootstrap";
 import Galleria from "./component/Galleria";
+import MyFooter from "./component/MyFooter";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       </header>
 
       <main>
-        <Container fluid className="mt-5 text-light p-0 overflow-hidden">
+        <Container fluid className="mt-5 text-light p-0 ">
           <Galleria film={'Star Wars'} search={'Star Wars'} />
           <Galleria film={'Harry Potter'} search={'Harry Potter'} />
           <Galleria film={'Mamma mia'} search={'Mamma Mia'} />
@@ -22,6 +23,10 @@ function App() {
 
         </Container>
       </main>
+
+      <footer>
+        <MyFooter />
+      </footer>
 
     </Container>
 

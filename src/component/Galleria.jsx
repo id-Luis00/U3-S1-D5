@@ -36,32 +36,33 @@ class Galleria extends Component {
         const { movies } = this.state
         return (
             <Container fluid className=" mx-3 mt-4 p-0">
-                <Container fluid className="p-0">
+                <Row >
+
+                    <Col xs={12}>
+                        <h2>{this.props.film}</h2>  {/*  titolo dell amia galleria */}
+                    </Col>
 
 
-                    <h2>{this.props.film}</h2>  {/*  titolo dell amia galleria */}
+
+                    <Col xs={12}>
+                        <Row xs={2} md={4} lg={6}>
+                            {movies.slice(0, 6).map((movie, index) => (
+                                <Col>
+                                    <img
+                                        className="object-fit-cover "
+                                        style={{ maxHeight: "160px", width: '293.33px' }}
+                                        key={index}
+                                        src={movie.Poster}
+                                        alt={movie.title}
+                                    />
+                                </Col>
+                            ))}
+                        </Row>
+                    </Col>
 
 
 
-                    <Container fluid className="d-flex gap-1 p-0">
-                        {movies.map((movie, index) => (
-                            <div className="d-flex flex-column mt-2 " >
-                                <img
-                                    className="object-fit-cover "
-                                    style={{ maxHeight: "160px", width: '293.33px' }}
-                                    key={index}
-                                    src={movie.Poster}
-                                    alt={movie.title}
-
-                                />
-
-
-                            </div>
-                        ))}
-                    </Container>
-
-
-                </Container>
+                </Row>
 
 
             </Container >
