@@ -1,11 +1,13 @@
 import { Component } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Modal, Row } from "react-bootstrap";
 
 
 class Galleria extends Component {
 
 
 
+    handleClose = () => this.setState({ show: false, selectedMovie: null });
+    handleShow = (movie) => this.setState({ show: true, selectedMovie: movie });
 
 
     get_fetch = (search) => {
@@ -29,17 +31,19 @@ class Galleria extends Component {
     }
 
     state = {
-        movies: []
+        movies: [],
+        show: false,
+        selectedMovie: null
     }
 
     render() {
-        const { movies } = this.state
+        const { movies, show, selectedMovie } = this.state
         return (
             <Container fluid className=" mx-3 mt-4 p-0">
                 <Row >
 
                     <Col xs={12}>
-                        <h2>{this.props.film}</h2>  {/*  titolo dell amia galleria */}
+                        <h2>{this.props.film}</h2>  {/*  titolo della mia galleria */}
                     </Col>
 
 
@@ -49,19 +53,32 @@ class Galleria extends Component {
                             {movies.slice(0, 6).map((movie, index) => (
                                 <Col>
                                     <img
-                                        className="object-fit-cover "
-                                        style={{ maxHeight: "160px", width: '293.33px' }}
+                                        className="object-fit-cover rounded-3"
+                                        style={{ maxHeight: "160px", width: '320px' }}
                                         key={index}
                                         src={movie.Poster}
-                                        alt={movie.title}
+                                        alt={movie.Title}
+                                        onClick={() => this.handleShow(movie)}
                                     />
+
+                                    {selectedMovie && (<Modal size="lg" show={show} onHide={this.handleClose}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>{selectedMovie.Title}</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body className="d-flex ">
+                                            <img src={selectedMovie.Poster} alt="" />
+                                            <div className="flex-grow-1">
+                                                <h2 className="text-center">Trama del film:</h2>
+                                                <p className="mt-3 px-2">
+                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga esse possimus officiis, numquam nam iusto id molestiae laudantium saepe doloribus ad necessitatibus vel corporis rerum eaque aliquam fugit tempora omnis?
+                                                </p>
+                                            </div>
+                                        </Modal.Body>
+                                    </Modal>)}
                                 </Col>
                             ))}
                         </Row>
                     </Col>
-
-
-
                 </Row>
 
 
