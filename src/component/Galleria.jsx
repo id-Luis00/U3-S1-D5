@@ -7,7 +7,26 @@ class Galleria extends Component {
 
 
     handleClose = () => this.setState({ show: false, selectedMovie: null });
-    handleShow = (movie) => this.setState({ show: true, selectedMovie: movie });
+    handleShow = (imdbID) => this.get_movie_details(imdbID);
+
+
+
+    get_movie_details = (imdbID) => {
+        fetch(`http://www.omdbapi.com/?apikey=9e1ba7fc&i=${imdbID}`)
+            .then(resp => {
+                if (resp.ok) {
+                    return resp.json();
+                } else {
+                    throw new Error('Errore nella fetch del film');
+                }
+            })
+            .then(dati => {
+                console.log(dati);
+                this.setState({ selectedMovie: dati, show: true });
+            })
+            .catch(err => alert('Errore nella fetch del film: ' + err.message));
+    }
+
 
 
     get_fetch = (search) => {
@@ -54,14 +73,14 @@ class Galleria extends Component {
                                 <Col>
                                     <img
                                         className="object-fit-cover rounded-3"
-                                        style={{ maxHeight: "160px", width: '320px' }}
+                                        style={{ maxHeight: "180px", width: '290px' }}
                                         key={index}
                                         src={movie.Poster}
                                         alt={movie.Title}
-                                        onClick={() => this.handleShow(movie)}
+                                        onClick={() => this.handleShow(movie.imdbID)}
                                     />
 
-                                    {selectedMovie && (<Modal size="lg" show={show} onHide={this.handleClose}>
+                                    {selectedMovie && (<Modal data-bs-theme='dark' className="text-light" size="lg" show={show} onHide={this.handleClose}>
                                         <Modal.Header closeButton>
                                             <Modal.Title>{selectedMovie.Title}</Modal.Title>
                                         </Modal.Header>
@@ -70,7 +89,7 @@ class Galleria extends Component {
                                             <div className="flex-grow-1">
                                                 <h2 className="text-center">Trama del film:</h2>
                                                 <p className="mt-3 px-2">
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga esse possimus officiis, numquam nam iusto id molestiae laudantium saepe doloribus ad necessitatibus vel corporis rerum eaque aliquam fugit tempora omnis?
+                                                    {selectedMovie.Plot}
                                                 </p>
                                             </div>
                                         </Modal.Body>
